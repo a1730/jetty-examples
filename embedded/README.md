@@ -5,12 +5,13 @@
 * [`compressed-encoding/`](compressed-encoding/) - GzipHandler support on Jetty Server for dynamically compressing responses
 * [`connectors/`](connectors/) - Using Connector names and virtual hosts on webapps to bind specific webapps to specific connectors
 * [`deploying/`](deploying/) - Setup a delayed webapp hot deployment.
+* [`ee8-jsp/`](ee8-jsp/) - Enable JSP processing in EE8 Servlet environment (with Taglib)
 * [`ee8-webapp-context/`](ee8-webapp-context/) - Setup an EE8 WebAppContext from File System or Classpath
 * [`ee10-error-handling/`](ee10-error-handling/) - Setup and configure EE10 Servlet / WebApp Error Handling
 * [`ee10-file-server/`](ee10-file-server/) - Serve static files in EE10 Servlet environment using one or more DefaultServlet
 * [`ee10-form-post/`](ee10-form-post/) - Form submission in EE10 Servlet environment
 * [`ee10-jersey-weld/`](ee10-jersey-weld/) - Enable Jersey (REST) and Weld (CDI) in the EE10 Servlet environment
-* [`ee10-jsp/`](ee10-jsp/) - Enable JSP processing from EE10 Servlet environment (with Taglib)
+* [`ee10-jsp/`](ee10-jsp/) - Enable JSP processing in EE10 Servlet environment (with Taglib)
 * [`ee10-metainf-resources/`](ee10-metainf-resources/) - Supporting`META-INF/resources` with a ServletContextHandler
 * [`ee10-servlet-ambiguous-paths/`](ee10-servlet-ambiguous-paths/) - Configuring EE10 Servlet environment to handle Ambiguous URI Paths
 * [`ee10-servlet-config/`](ee10-servlet-config/) - Configuring EE10 Servlet environment (eg: multiple filter mappings)
