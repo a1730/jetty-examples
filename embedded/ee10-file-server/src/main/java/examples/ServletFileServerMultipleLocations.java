@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.ResourceServlet;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.Server;
@@ -69,7 +70,7 @@ public class ServletFileServerMultipleLocations
         server.setHandler(context);
 
         // add special pathspec of "/alt/" content mapped to the altPath
-        ServletHolder holderAlt = new ServletHolder("static-alt", DefaultServlet.class);
+        ServletHolder holderAlt = new ServletHolder("static-alt", ResourceServlet.class);
         holderAlt.setInitParameter("resourceBase", altPath.toUri().toASCIIString());
         holderAlt.setInitParameter("dirAllowed", "true");
         holderAlt.setInitParameter("pathInfoOnly", "true");

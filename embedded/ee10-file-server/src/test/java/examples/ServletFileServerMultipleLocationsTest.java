@@ -40,8 +40,8 @@ public class ServletFileServerMultipleLocationsTest
     private final long exampleSize = 2 * StaticFileGen.MB;
     private final long largeSize = 2 * StaticFileGen.GB;
     private Server server;
-    private String exampleSha;
-    private String largeSha;
+    private static String exampleSha;
+    private static String largeSha;
 
     @BeforeEach
     public void startServer() throws Exception
@@ -49,8 +49,10 @@ public class ServletFileServerMultipleLocationsTest
         Path resourcesRoot = StaticFileGen.tempDir("static-huge");
         FS.ensureDirExists(resourcesRoot);
 
-        exampleSha = StaticFileGen.generate(resourcesRoot.resolve("example.png"), exampleSize);
-        largeSha = StaticFileGen.generate(resourcesRoot.resolve("large.mkv"), largeSize);
+        if (exampleSha == null)
+            exampleSha = StaticFileGen.generate(resourcesRoot.resolve("example.png"), exampleSize);
+        if (largeSha == null)
+            largeSha = StaticFileGen.generate(resourcesRoot.resolve("large.mkv"), largeSize);
 
         server = ServletFileServerMultipleLocations.newServer(0, resourcesRoot);
         server.start();
