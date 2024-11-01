@@ -13,10 +13,7 @@
 
 package examples;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -25,7 +22,9 @@ import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceFactory;
+import org.eclipse.jetty.util.resource.Resources;
 
 /**
  * Using a {@link ServletContextHandler} serve static file content from multiple locations.
@@ -42,34 +41,15 @@ public class ServletFileServerMultipleLocations
 {
     public static void main(String[] args) throws Exception
     {
-        URI webRootUri = findDefaultBaseResource();
-        System.err.println("Default Base Resource is " + webRootUri);
-
         Path altPath = Paths.get("webapps/alt-root").toRealPath();
         System.err.println("Alt Base Resource is " + altPath);
 
-        Server server = ServletFileServerMultipleLocations.newServer(8080, webRootUri, altPath);
+        Server server = ServletFileServerMultipleLocations.newServer(8080, altPath);
         server.start();
         server.join();
     }
 
-    public static URI findDefaultBaseResource() throws URISyntaxException
-    {
-        // Figure out what path to serve content from
-        ClassLoader cl = ServletFileServerMultipleLocations.class.getClassLoader();
-        // We look for a file, as ClassLoader.getResource() is not
-        // designed to look for directories (we resolve the directory later)
-        URL f = cl.getResource("static-root/hello.html");
-        if (f == null)
-        {
-            throw new RuntimeException("Unable to find resource directory");
-        }
-
-        // Resolve file to directory
-        return f.toURI().resolve("./").normalize();
-    }
-
-    public static Server newServer(int port, URI mainResourceBase, Path altPath) throws MalformedURLException
+    public static Server newServer(int port, Path altPath) throws FileNotFoundException
     {
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
@@ -81,8 +61,11 @@ public class ServletFileServerMultipleLocations
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         ResourceFactory resourceFactory = ResourceFactory.of(context);
-        context.setBaseResource(resourceFactory.newResource(mainResourceBase));
-        context.setWelcomeFiles(new String[]{"index.html", "index.htm", "alt-index.html"});
+        Resource baseResource = resourceFactory.newClassLoaderResource("static-root");
+        if (!Resources.isReadableDirectory(baseResource))
+            throw new FileNotFoundException("Unable to find base-resource for [static-root]");
+        context.setBaseResource(baseResource);
+        context.setWelcomeFiles(new String[]{"index.html", "index.htm", "foo.htm"});
         server.setHandler(context);
 
         // add special pathspec of "/alt/" content mapped to the altPath

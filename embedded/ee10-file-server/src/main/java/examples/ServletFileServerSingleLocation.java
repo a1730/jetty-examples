@@ -13,16 +13,16 @@
 
 package examples;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.FileNotFoundException;
 
 import org.eclipse.jetty.ee10.servlet.DefaultServlet;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceFactory;
+import org.eclipse.jetty.util.resource.Resources;
 
 /**
  * Using a {@link ServletContextHandler} serve static file content from single location
@@ -31,31 +31,12 @@ public class ServletFileServerSingleLocation
 {
     public static void main(String[] args) throws Exception
     {
-        URI webRootUri = findDefaultBaseResource();
-        System.err.println("WebRoot is " + webRootUri);
-
-        Server server = ServletFileServerSingleLocation.newServer(8080, webRootUri);
+        Server server = ServletFileServerSingleLocation.newServer(8080);
         server.start();
         server.join();
     }
 
-    public static URI findDefaultBaseResource() throws URISyntaxException
-    {
-        // Figure out what path to serve content from
-        ClassLoader cl = ServletFileServerMultipleLocations.class.getClassLoader();
-        // We look for a file, as ClassLoader.getResource() is not
-        // designed to look for directories (we resolve the directory later)
-        URL f = cl.getResource("static-root/hello.html");
-        if (f == null)
-        {
-            throw new RuntimeException("Unable to find resource directory");
-        }
-
-        // Resolve file to directory
-        return f.toURI().resolve("./").normalize();
-    }
-
-    public static Server newServer(int port, URI resourcesRoot)
+    public static Server newServer(int port) throws FileNotFoundException
     {
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
@@ -64,8 +45,12 @@ public class ServletFileServerSingleLocation
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
+        context.setWelcomeFiles(new String[]{"index.html", "index.htm", "foo.htm"});
         ResourceFactory resourceFactory = ResourceFactory.of(context);
-        context.setBaseResource(resourceFactory.newResource(resourcesRoot));
+        Resource baseResource = resourceFactory.newClassLoaderResource("static-root");
+        if (!Resources.isReadableDirectory(baseResource))
+            throw new FileNotFoundException("Unable to find base-resource for [static-root]");
+        context.setBaseResource(baseResource);
         server.setHandler(context);
 
         ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
