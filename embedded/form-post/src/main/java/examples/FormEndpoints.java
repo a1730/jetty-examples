@@ -121,7 +121,7 @@ public class FormEndpoints
                 return true;
             }
 
-            Fields form = FormFields.from(request, StandardCharsets.UTF_8, MAX_KEYS, MAX_CONTENT_SIZE).get();
+            Fields form = FormFields.getFields(request, MAX_KEYS, MAX_CONTENT_SIZE);
 
             String member = form.getValue("Member");
             if (member == null)
