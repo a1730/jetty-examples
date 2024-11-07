@@ -24,7 +24,7 @@ import org.eclipse.jetty.http.HttpField;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.http.MimeTypes;
-import org.eclipse.jetty.http.MultiPart;
+import org.eclipse.jetty.http.MultiPartConfig;
 import org.eclipse.jetty.http.MultiPartFormData;
 import org.eclipse.jetty.http.pathmap.PathSpec;
 import org.eclipse.jetty.io.Content;
@@ -179,15 +179,14 @@ public class FormEndpoints
 
         private Map<String, String> extractMultiPartForm(Request request, String contentType)
         {
-            String boundary = MultiPart.extractBoundary(contentType);
-            MultiPartFormData.Parser formData = new MultiPartFormData.Parser(boundary);
-            formData.setFilesDirectory(workDir);
+            MultiPartConfig config = new MultiPartConfig.Builder()
+                .location(workDir).build();
 
             // we are assuming a simple form with no binary data (like a file upload)
             Map<String, String> form = new HashMap<>();
 
             // May block waiting for multipart form data.
-            try (MultiPartFormData.Parts parts = formData.parse(request).join())
+            try (MultiPartFormData.Parts parts = MultiPartFormData.getParts(request, request, contentType, config))
             {
                 parts.forEach(part ->
                 {
