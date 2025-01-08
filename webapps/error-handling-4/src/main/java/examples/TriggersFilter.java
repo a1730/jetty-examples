@@ -45,15 +45,15 @@ public class TriggersFilter implements Filter
                 // trigger is complex, try to match some common runtime errors
                 if (trigger.equalsIgnoreCase(RuntimeException.class.getSimpleName()))
                 {
-                    throw new RuntimeException("Error from " + TriggersFilter.class.getName());
+                    throw new RuntimeException("Intentional Error from " + TriggersFilter.class.getName());
                 }
                 else if (trigger.equalsIgnoreCase(IOException.class.getSimpleName()))
                 {
-                    throw new IOException("Error from " + TriggersFilter.class.getName());
+                    throw new IOException("Intentional Error from " + TriggersFilter.class.getName());
                 }
                 else if (trigger.equalsIgnoreCase(ServletException.class.getSimpleName()))
                 {
-                    throw new ServletException("Error from " + TriggersFilter.class.getName());
+                    throw new ServletException("Intentional Error from " + TriggersFilter.class.getName());
                 }
                 else
                 {

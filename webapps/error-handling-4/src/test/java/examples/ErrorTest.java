@@ -243,12 +243,12 @@ public class ErrorTest
         assertThat(body, containsString("contextPath: /app"));
         assertThat(body, containsString("servletPath: /errors"));
         assertThat(body, containsString("requestURI: /app/errors/500"));
-        assertThat(body, containsString("ERROR_MESSAGE: java.lang.RuntimeException: Error from examples.TriggersFilter"));
+        assertThat(body, containsString("ERROR_MESSAGE: java.lang.RuntimeException: Intentional Error from examples.TriggersFilter"));
         assertThat(body, containsString("ERROR_CODE: 500"));
         assertThat(body, containsString("ERROR_SERVLET: hello"));
         assertThat(body, containsString("ERROR_REQUEST_URI: /app/hello"));
         assertThat(body, containsString("ERROR_EXCEPTION_TYPE: class java.lang.RuntimeException"));
-        assertThat(body, containsString("ERROR_EXCEPTION: Error from examples.TriggersFilter"));
+        assertThat(body, containsString("ERROR_EXCEPTION: Intentional Error from examples.TriggersFilter"));
         assertThat(body, containsString("at examples.TriggersFilter.doFilter("));
     }
 
@@ -305,12 +305,12 @@ public class ErrorTest
         assertThat(body, containsString("contextPath: /app"));
         assertThat(body, containsString("servletPath: /errors"));
         assertThat(body, containsString("requestURI: /app/errors/500"));
-        assertThat(body, containsString("ERROR_MESSAGE: java.lang.RuntimeException: Error from examples.TriggersFilter"));
+        assertThat(body, containsString("ERROR_MESSAGE: java.lang.RuntimeException: Intentional Error from examples.TriggersFilter"));
         assertThat(body, containsString("ERROR_CODE: 500"));
         assertThat(body, containsString("ERROR_SERVLET: hello"));
         assertThat(body, containsString("ERROR_REQUEST_URI: /app/hello"));
         assertThat(body, containsString("ERROR_EXCEPTION_TYPE: class java.lang.RuntimeException"));
-        assertThat(body, containsString("ERROR_EXCEPTION: Error from examples.TriggersFilter"));
+        assertThat(body, containsString("ERROR_EXCEPTION: Intentional Error from examples.TriggersFilter"));
         assertThat(body, containsString("at examples.TriggersFilter.doFilter("));
     }
 }
