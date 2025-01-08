@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ResourceHandlerFromFileSystemTest
 {
-    private final long exampleSize = 2 * MB;
+    private final long imageSize = 2 * MB;
     private final long largeSize = 2 * GB;
     private Server server;
     private String exampleSha;
@@ -43,7 +43,7 @@ public class ResourceHandlerFromFileSystemTest
         Path resourcesRoot = StaticFileGen.tempDir("static-huge");
         FS.ensureDirExists(resourcesRoot);
 
-        exampleSha = StaticFileGen.generate(resourcesRoot.resolve("example.png"), exampleSize);
+        exampleSha = StaticFileGen.generate(resourcesRoot.resolve("example.png"), imageSize);
         largeSha = StaticFileGen.generate(resourcesRoot.resolve("large.mkv"), largeSize);
 
         server = ResourceHandlerFromFileSystem.newServer(0, resourcesRoot);
@@ -69,10 +69,10 @@ public class ResourceHandlerFromFileSystemTest
         String contentLengthResponse = http.getHeaderField("Content-Length");
         assertNotNull(contentLengthResponse);
         long contentLengthLong = Long.parseLong(contentLengthResponse);
-        assertEquals(2 * MB, contentLengthLong);
+        assertEquals(imageSize, contentLengthLong);
         assertEquals("image/png", http.getHeaderField("Content-Type"));
 
-        StaticFileGen.verify(http.getInputStream(), exampleSize, exampleSha);
+        StaticFileGen.verify(http.getInputStream(), imageSize, exampleSha);
     }
 
     /**
@@ -88,7 +88,7 @@ public class ResourceHandlerFromFileSystemTest
         String contentLengthResponse = http.getHeaderField("Content-Length");
         assertNotNull(contentLengthResponse);
         long contentLengthLong = Long.parseLong(contentLengthResponse);
-        assertEquals(2 * GB, contentLengthLong);
+        assertEquals(largeSize, contentLengthLong);
         assertNull(http.getHeaderField("Content-Type"), "Not a recognized mime-type by Jetty");
 
         StaticFileGen.verify(http.getInputStream(), largeSize, largeSha);
