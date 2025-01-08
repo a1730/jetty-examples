@@ -4,11 +4,11 @@
   <parent>
     <groupId>org.eclipse.jetty.examples.embedded.uberwar</groupId>
     <artifactId>ee10-uber-war-parent</artifactId>
-    <version>12.0.x</version>
+    <version>12.1.x</version>
   </parent>
   <artifactId>ee10-uber-war-server</artifactId>
   <packaging>jar</packaging>
-  <name>Jetty Examples :: Jetty 12.0.x :: Embedded :: Uber War :: Server Classes</name>
+  <name>Jetty Examples :: Jetty 12.1.x :: Embedded :: Uber War :: Server Classes</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
