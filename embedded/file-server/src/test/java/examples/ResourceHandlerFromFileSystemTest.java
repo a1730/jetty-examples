@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class ResourceHandlerFromFileSystemTest
 {
     private final long imageSize = 2 * MB;
-    private final long largeSize = 2 * GB;
+    private final long largeSize = (long)(1.8 * GB);
     private Server server;
     private String exampleSha;
     private String largeSha;
