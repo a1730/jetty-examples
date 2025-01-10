@@ -26,7 +26,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -93,7 +92,6 @@ public class PathMappingServerTest
     }
 
     @Test
-    @Disabled("Re-enable once https://github.com/jetty/jetty.project/issues/12695 is fixed")
     public void testGetMetaInfResource() throws IOException, InterruptedException
     {
         Properties props = loadClassPathProperties("/META-INF/maven/org.webjars/bootstrap/pom.properties");

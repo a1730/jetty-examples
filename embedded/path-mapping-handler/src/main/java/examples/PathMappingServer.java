@@ -59,6 +59,7 @@ public class PathMappingServer
 
         ResourceHandler rootResourceHandler = new ResourceHandler();
         rootResourceHandler.setBaseResource(rootResourceDir);
+        rootResourceHandler.setUseFileMapping(false);
         rootResourceHandler.setDirAllowed(false);
         rootResourceHandler.setWelcomeFiles("index.html");
 
@@ -72,12 +73,14 @@ public class PathMappingServer
 
         ResourceHandler extraResourceHandler = new ResourceHandler();
         extraResourceHandler.setBaseResource(extraResourceDir);
+        extraResourceHandler.setUseFileMapping(false);
         extraResourceHandler.setDirAllowed(true);
 
         Resource metaInfResource = findMetaInfResources(resourceFactory, PathMappingServer.class.getClassLoader());
 
         ResourceHandler metaInfResourceHandler = new ResourceHandler();
         metaInfResourceHandler.setBaseResource(metaInfResource);
+        metaInfResourceHandler.setUseFileMapping(false);
         metaInfResourceHandler.setDirAllowed(false);
 
         // The context-path is the portion of the path that doesn't belong to the filename.
