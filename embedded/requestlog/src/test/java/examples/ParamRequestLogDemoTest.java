@@ -81,13 +81,14 @@ public class ParamRequestLogDemoTest
      */
     @ParameterizedTest
     @CsvSource(delimiter = '|', textBlock = """
-        # Path                         | Form Data | Expected Response Status
-        /read/                         | co=Canada | 200
-        /read/?name=Bob                | co=Aussie | 200
-        /no-read/                      | co=Swiss  | 200
-        /no-read/?name=Carl            | co=Aruba  | 200
-        /no-read/?name=Anne&role=Chef  | co=Sweden | 200
-        /other/                        | co=France | 404
+        # Path                         | Form Data            | Expected Response Status
+        /read/                         | co=Canada            | 200
+        /read/?name=Bruce              | co=Aussie            | 200
+        /read/?name=Jack               | co=Aussie&region=NSW | 200
+        /no-read/                      | co=Swiss             | 200
+        /no-read/?name=Carl            | co=Aruba             | 200
+        /no-read/?name=Anne&role=Chef  | co=Sweden            | 200
+        /other/                        | co=France            | 404
         """)
     public void testRequestUrlForm(String path, String formdata, int expectedStatus) throws IOException, InterruptedException
     {
