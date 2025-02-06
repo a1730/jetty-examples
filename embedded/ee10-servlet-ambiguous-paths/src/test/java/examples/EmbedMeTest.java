@@ -52,7 +52,8 @@ public class EmbedMeTest
 
     @ParameterizedTest
     @ValueSource(strings = {
-        "/git/branch/fix%2Frefactor"
+        "/git/branch/fix%2Frefactor",
+        "/git/branch/fix//refactor"
     })
     public void testAmbiguousPathSeparator(String path) throws IOException
     {
