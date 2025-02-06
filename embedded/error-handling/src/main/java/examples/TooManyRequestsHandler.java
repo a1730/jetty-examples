@@ -25,10 +25,21 @@ public class TooManyRequestsHandler extends Handler.Wrapper
     public boolean handle(Request request, Response response, Callback callback) throws Exception
     {
         // simulating some criteria to trigger the failed request handling
-        if (StringUtil.isNotBlank(request.getHeaders().get("X-Overdoing-It")))
+        if (StringUtil.isNotBlank(request.getHeaders().get("X-Overdoing-It-1")))
         {
+            // Option 1: just fail the callback
             callback.failed(new TooManyRequestsException());
-            return false;
+            // Indicate to Jetty that this Handler is handling this request
+            // not allowing further handlers to handle this request.
+            return true;
+        }
+        else if (StringUtil.isNotBlank(request.getHeaders().get("X-Overdoing-It-2")))
+        {
+            // Option 2: write the error
+            Response.writeError(request, response, callback, new TooManyRequestsException());
+            // Indicate to Jetty that this Handler is handling this request
+            // not allowing further handlers to handle this request.
+            return true;
         }
 
         // process the child handlers

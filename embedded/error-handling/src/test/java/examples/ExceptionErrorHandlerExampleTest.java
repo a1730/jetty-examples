@@ -24,6 +24,8 @@ import org.eclipse.jetty.util.component.LifeCycle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -63,8 +65,12 @@ public class ExceptionErrorHandlerExampleTest
         assertThat(response.body(), is("Hello from " + HelloHandler.class.getName()));
     }
 
-    @Test
-    public void testFailedRequest() throws IOException, InterruptedException
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "X-Overdoing-It-1",
+        "X-Overdoing-It-2"
+    })
+    public void testFailedRequest(String triggerTechniqueHeaderName) throws IOException, InterruptedException
     {
         HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
@@ -72,7 +78,7 @@ public class ExceptionErrorHandlerExampleTest
 
         HttpRequest request = HttpRequest.newBuilder()
             .uri(server.getURI().resolve("/hello/"))
-            .header("X-Overdoing-It", "oops")
+            .header(triggerTechniqueHeaderName, "oops")
             .build();
 
         HttpResponse<String> response = httpClient.send(request,
