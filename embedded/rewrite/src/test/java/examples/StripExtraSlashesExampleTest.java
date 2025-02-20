@@ -66,7 +66,11 @@ public class StripExtraSlashesExampleTest
             Arguments.of("//////toomany/", "/toomany/"),
             Arguments.of("//////toomany//deep", "/toomany//deep"),
             Arguments.of("/%2Fencoded", "/%2Fencoded"),
-            Arguments.of("//%2Fencoded/", "/%2Fencoded/")
+            Arguments.of("//%2Fencoded/", "/%2Fencoded/"),
+            // path parameters in the mix
+            Arguments.of("/;a=b/", "/;a=b/"),
+            Arguments.of("/;a=b//", "/;a=b//"),
+            Arguments.of("/;/dump", "/;/dump")
         );
     }
 
