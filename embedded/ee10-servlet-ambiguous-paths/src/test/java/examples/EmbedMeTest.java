@@ -52,7 +52,14 @@ public class EmbedMeTest
 
     @ParameterizedTest
     @ValueSource(strings = {
+        // SUSPICIOUS_PATH_CHARACTERS
+        "/git/branch/fix%0Arefactor",
+        "/git/branch/fix%5Crefactor",
+        // AMBIGUOUS_PATH_ENCODING
+        "/git/branch/fix%25refactor",
+        // AMBIGUOUS_PATH_SEPARATOR
         "/git/branch/fix%2Frefactor",
+        // AMBIGUOUS_EMPTY_SEGMENT
         "/git/branch/fix//refactor"
     })
     public void testAmbiguousPathSeparator(String path) throws IOException

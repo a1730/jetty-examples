@@ -35,7 +35,8 @@ public class EmbedMe
         Server server = new Server();
 
         HttpConfiguration httpConfig = new HttpConfiguration();
-        httpConfig.setUriCompliance(UriCompliance.LEGACY);
+        UriCompliance uriCompliance = UriCompliance.LEGACY.with("custom", UriCompliance.Violation.SUSPICIOUS_PATH_CHARACTERS);
+        httpConfig.setUriCompliance(uriCompliance);
 
         HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(httpConfig);
         ServerConnector connector = new ServerConnector(server, httpConnectionFactory);
@@ -49,7 +50,7 @@ public class EmbedMe
         context.addServlet(AmbiguousPathServlet.class, "/*");
 
         server.setHandler(context);
-        server.setDumpAfterStart(true);
+        //server.setDumpAfterStart(true);
         return server;
     }
 }
